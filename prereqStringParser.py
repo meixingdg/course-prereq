@@ -6,7 +6,8 @@ def splitReqStrUsingAndOr(rawStr, debug = False):
 	# convert to lower case to make parsing easier, in case it wasn't already done
 	rawStr = rawStr.lower()
 
-	# TODO: replace tabs and multiple spaces w/ spaces 
+	# replace tabs and multiple spaces w/ spaces 
+	rawStr = re.sub('[\t ]+', ' ', rawStr)
 
 	# list of strings that are split by ands
 	andStrs = rawStr.split(' and ')
