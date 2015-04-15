@@ -10,10 +10,13 @@ def splitReqStrUsingAndOr(rawStr, debug = False):
 	rawStr = re.sub('[\t ]+', ' ', rawStr)
 
 	# list of strings that are split by ands
-	andStrs = rawStr.split(' and ')
+	andStrs = re.split(' and |,', rawStr)
 
 	if debug:
 		print 'and-ed strings: ', andStrs
+
+	# split each of the strings by comma
+	commaedStrs = [strng.split(' or ') for strng in andStrs]
 
 	# split each of the and-ed strings by or
 	orStrs = [strng.split(' or ') for strng in andStrs]
@@ -21,13 +24,13 @@ def splitReqStrUsingAndOr(rawStr, debug = False):
 	if debug:
 		print 'or-ed string: ', orStrs
 
-	# split remaining strings by comma
+	'''# split remaining strings by comma
 	for i in range(len(orStrs)):
 		orStrs[i] = [strng.split(',') for strng in orStrs[i]]
 		print 'orstrs[i]: ', orStrs[i]
 		# flatten the list
 		orStrs[i] = [strng[0] for strng in orStrs[i]]
-
+	'''
 	if debug:
 		print 'after split using commas: ', orStrs
 
@@ -112,6 +115,15 @@ def splitCourseString(courseStr):
 	print 'splitstr: ', splitStr
 	return splitStr # takes "econ 2010" --> ['econ','2010']
 
+''' 
+Returns courses = [[[p1, p2], [p3], [p4]], [[c1, c2], [c3]]]
+	where p1 = a course string like 'econ 2010'
+courses[0] = prerequisites
+	each list in courses[0] is a group of prerequisites
+		if the list has more than one course, only one is required (this or that)
+courses[1] = corequisites
+	see description for courses[0], change to corequisites
+'''
 def getCourses(rawStr, debug = False):
 	prereqStr, coreqStr = splitStrIntoPrereqAndCoreq(rawStr, debug)
 	prereqCourses = splitReqStrUsingAndOr(prereqStr, debug)
@@ -119,14 +131,12 @@ def getCourses(rawStr, debug = False):
 	print 'original string: ', rawStr
 	print 'prereq courses: ', prereqCourses
 	print 'coreq courses: ', coreqCourses
-	return [prereqCourses, coreqCourses] # [[[p1, p2], [p3], [p4]], [[c1, c2], [c3]]]
-	# p1 = 'econ 2010'
-
+	return [prereqCourses, coreqCourses] 
 if __name__ == '__main__':
 	string1 = "Prerequisites:  ARCH 4140 and ARCH 4330 or ARCH  4560; A pre or corequisite to ARCH 4300."
 	string2 = 'ARCH 2530 Digital Constructs 2, Corequisites: ARCH 2800 Architectural Design Studio 1'
 	string3 = 'Prerequisite: COMM 4420, COMM 4770, or COMM 4710.'
-	print getCourses(string2, True)
+	print getCourses(string3, False)
 	#prereqStr, coreqStr = splitStrIntoPrereqAndCoreq(string, True)
 	#print 'prereq ----------------- '
 	#splitReqStrUsingAndOr(prereqStr, True)
