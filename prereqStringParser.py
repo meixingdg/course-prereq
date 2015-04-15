@@ -24,29 +24,14 @@ def splitReqStrUsingAndOr(rawStr, debug = False):
 	if debug:
 		print 'or-ed string: ', orStrs
 
-	'''# split remaining strings by comma
-	for i in range(len(orStrs)):
-		orStrs[i] = [strng.split(',') for strng in orStrs[i]]
-		print 'orstrs[i]: ', orStrs[i]
-		# flatten the list
-		orStrs[i] = [strng[0] for strng in orStrs[i]]
-	'''
-	if debug:
-		print 'after split using commas: ', orStrs
-
 	courseRegex = re.compile(r"([a-z]{4} [0-9]{4})")
 	courses = [[]]*len(orStrs)
 	# extract the courses from each of the or-ed strings
 	for orStrListInd in range(len(orStrs)):
 		convertedList = []
 		for rawCourseStr in orStrs[orStrListInd]:
-			print 'rawCourseStr: |%s|' % rawCourseStr
-			print len(rawCourseStr)
-			print orStrListInd
 			convertedList.extend([foundCourse.group() for foundCourse in re.finditer(courseRegex, rawCourseStr)])
 		courses[orStrListInd] = convertedList
-	
-	print 'courses: ', courses 
 	return courses
 
 
@@ -78,18 +63,21 @@ def splitStrIntoPrereqAndCoreq(rawStr, debug = False):
 		print 'delimiter index: ', delimiterInd
 
 	if indices[0] == -1 and indices[1] == -1:
-		print 'case 1'
+		if debug:
+			print 'case 1'
 		# if neither of the strings were found, then assume all of the courses contained in the string are prerequisites
 		if delimiterInd == -1:
 			delimiterInd = len(rawStr)
 		prereqStr = rawStr[:delimiterInd]
 	elif indices[0] == -1 and indices[1] != -1:
-		print 'case 2'
+		if debug:
+			print 'case 2'
 		# if only corequisite found, then assume all of the courses contained in the string are corequisites that are behind the coreq substring match
 		coreqStr = rawStr[indices[1]:]
 		prereqStr = rawStr[:indices[1]]
 	elif indices[0] != -1 and indices[1] == -1:
-		print 'case 3'
+		if debug:
+			print 'case 3'
 		# if only prerequisite found, then assume all of the courses contained in the string are prerequisites, up to delimiter
 		prereqStr = rawStr[:delimiterInd]
 	else:
@@ -110,10 +98,12 @@ def splitStrIntoPrereqAndCoreq(rawStr, debug = False):
 
 	return prereqStr, coreqStr
 
+'''
+takes "econ 2010" --> ['econ','2010']
+'''
 def splitCourseString(courseStr):
 	splitStr = courseStr.split()
-	print 'splitstr: ', splitStr
-	return splitStr # takes "econ 2010" --> ['econ','2010']
+	return splitStr 
 
 ''' 
 Returns courses = [[[p1, p2], [p3], [p4]], [[c1, c2], [c3]]]
@@ -128,15 +118,17 @@ def getCourses(rawStr, debug = False):
 	prereqStr, coreqStr = splitStrIntoPrereqAndCoreq(rawStr, debug)
 	prereqCourses = splitReqStrUsingAndOr(prereqStr, debug)
 	coreqCourses = splitReqStrUsingAndOr(coreqStr, debug)
-	print 'original string: ', rawStr
-	print 'prereq courses: ', prereqCourses
-	print 'coreq courses: ', coreqCourses
+	if debug:
+		print 'original string: ', rawStr
+		print 'prereq courses: ', prereqCourses
+		print 'coreq courses: ', coreqCourses
 	return [prereqCourses, coreqCourses] 
 if __name__ == '__main__':
 	string1 = "Prerequisites:  ARCH 4140 and ARCH 4330 or ARCH  4560; A pre or corequisite to ARCH 4300."
 	string2 = 'ARCH 2530 Digital Constructs 2, Corequisites: ARCH 2800 Architectural Design Studio 1'
 	string3 = 'Prerequisite: COMM 4420, COMM 4770, or COMM 4710.'
-	print getCourses(string3, False)
+	string4 = 'CSCI 2500 or ECSE 2660, and CSCI 1200. Experience with database systems recommended.'
+	print getCourses(string4, False)
 	#prereqStr, coreqStr = splitStrIntoPrereqAndCoreq(string, True)
 	#print 'prereq ----------------- '
 	#splitReqStrUsingAndOr(prereqStr, True)
