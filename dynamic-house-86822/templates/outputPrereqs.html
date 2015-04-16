@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <body>
+    {% if tree|length == 1 %}
+	  <p>There are no prerequisites for: {{ tree[0][3] }} {{ tree[0][2] }} - {{ tree[0][1] }}</p>
+	{% else %}
+      <p>The prerequisite tree for {{ tree[0][3] }} {{ tree[0][2] }} - {{ tree[0][1] }} is:</p>
+	  {% for item in tree %}
+	    <p>
+	      {% for n in range (item[0]*4) %}
+		    &nbsp
+		  {% endfor %}
+          {{ item[3] }} {{ item[2]}} - {{ item[1] }} 
+	    <p>
+      {% endfor %}
+	{% endif %}
+    <form method="post">
+      <div>
+	    <button name="reset" value ="true" type="submit">Reset</button>
+	  </div>
+	</form>
+    <hr>
+  </body>
+</html>
+{% endautoescape %}
