@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <body>
+    <p>Select a course.</p>
+    <form method="post">
+      <div>
+	    <select name = "department">
+	      {% for department in departments %}
+            <option value="{{ department }}">{{ department }}</option>
+          {% endfor %}
+        </select> 
+		<select name = "course">		
+          {% for course in courses %}
+            <option value="{{ course }}">{{ course }}</option>
+          {% endfor %}		
+	    </select>
+	    <input type="submit">
+	    <button name="reset" value ="true" type="submit">Reset</button>
+	  </div>
+    </form>
+    <hr>
+  </body>
+</html>
+{% endautoescape %}
