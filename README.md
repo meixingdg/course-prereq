@@ -1,5 +1,3 @@
-# course-prereq
-jay checking in guize
-why why why why - kevin
-MeiXing was here.
-Tim is late for the first time
+Application for visualizing course RPI prerequisites.
+
+Developers: Jay Jensen, MeiXing Dong, Kevin Hwang, Tim Hurley
