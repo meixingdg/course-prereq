@@ -3,15 +3,15 @@
 <html>
   <body>
     {% if tree|length == 1 %}
-	  <p>There are no prerequisites for: {{ tree[0][3] }} {{ tree[0][2] }} - {{ tree[0][1] }}</p>
+	  <p>There are no prerequisites for: {{ tree[0].departmentCode }} {{ tree[0].code }} - {{ tree[0].name }}</p>
 	{% else %}
-      <p>The prerequisite tree for {{ tree[0][3] }} {{ tree[0][2] }} - {{ tree[0][1] }} is:</p>
+      <p>The prerequisite tree for {{ tree[0].departmentCode }} {{ tree[0].code }} - {{ tree[0].name }} is:</p>
 	  {% for item in tree %}
 	    <p>
-	      {% for n in range (item[0]*4) %}
+	      {% for n in range (item.depth*4) %}
 		    &nbsp
 		  {% endfor %}
-          {{ item[3] }} {{ item[2]}} - {{ item[1] }} 
+          <span style="background-color: {{item.backgroundColor}}">{{ item.departmentCode }} {{ item.code}} - {{ item.name }} </span>
 	    <p>
       {% endfor %}
 	{% endif %}
