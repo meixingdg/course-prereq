@@ -1,26 +1,48 @@
 <!DOCTYPE html>
+<!--Webpage generator-->
 {% autoescape true %}
 <html>
+  <head>
+	<!--Load Bootstrap to make this easier-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<!--Edit container to be less wide-->
+	<style>
+		@media (min-width: 1200px) {
+			.container{
+				max-width: 970px;
+			}
+		}
+	</style>
+  </head>
   <body>
-    {% if tree|length == 1 %}
-	  <p>There are no prerequisites for: {{ tree[0].departmentCode }} {{ tree[0].code }} - {{ tree[0].name }}</p>
-	{% else %}
-      <p>The prerequisite tree for {{ tree[0].departmentCode }} {{ tree[0].code }} - {{ tree[0].name }} is:</p>
-	  {% for item in tree %}
-	    <p>
-	      {% for n in range (item.depth*4) %}
-		    &nbsp
+  <!--Create a container to keep the website neat and organized. Everything goes in it-->
+	<div class="container">
+	<!--Check if there are prerequisites to a course (there aren't it tree length == 1-->
+		{% if tree|length == 1 %}
+		  <h4>There are no prerequisites for: {{ tree[0].departmentCode }} {{ tree[0].code }} - {{ tree[0].name }}</h1>
+		{% else %}
+		<!--If there are, we will make a well for each object in the tree-->
+		  <h4>The prerequisite tree for {{ tree[0].departmentCode }} {{ tree[0].code }} - {{ tree[0].name }} is:</h1>
+		  {% for item in tree %}
+			<<!--Include a title for each well which is the course's description. Appears on hover.-->
+			  <div class="well"; title="{{item.description}}"; style="margin-left: {{item.depth*60}}px; background-color: {{item.backgroundColor}}">
+				<span>
+					{{ item.departmentCode }} {{ item.code}} - {{ item.name }}</span>
+			  </div>
 		  {% endfor %}
-          <span style="background-color: {{item.backgroundColor}}">{{ item.departmentCode }} {{ item.code}} - {{ item.name }} </span>
-	    <p>
-      {% endfor %}
-	{% endif %}
-    <form method="post">
-      <div>
-	    <button name="reset" value ="true" type="submit">Reset</button>
-	  </div>
-	</form>
-    <hr>
+		{% endif %}
+		<form method="post">
+		  <div>
+		  <!--Reset button to bring back to original page-->
+			<button name="reset" value ="true" type="submit">Reset</button>
+		  </div>
+		</form>
+		<hr>
+	</div>
   </body>
 </html>
 {% endautoescape %}
