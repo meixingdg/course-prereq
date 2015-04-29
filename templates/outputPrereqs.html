@@ -28,7 +28,7 @@
 		<!--If there are, we will make a well for each object in the tree-->
 		  <h4>The prerequisite tree for {{ tree[0].departmentCode }} {{ tree[0].code }} - {{ tree[0].name }} is:</h1>
 		  {% for item in tree %}
-			<<!--Include a title for each well which is the course's description. Appears on hover.-->
+			<!--Include a title for each well which is the course's description. Appears on hover.-->
 			  <div class="well"; title="{{item.description}}"; style="margin-left: {{item.depth*60}}px; background-color: {{item.backgroundColor}}">
 				<span>
 					{{ item.departmentCode }} {{ item.code}} - {{ item.name }}</span>

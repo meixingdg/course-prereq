@@ -12,9 +12,9 @@ from courseparser import CourseParser
 colors = ["#FE642E","#8181F7","#DA81F5","#D0FA58","#58FAF4","#FA5858","#FE2EC8"]
 
 class CourseNode():
-"""Extremely simple class, used only to store data for retrieval by 
-the template
-"""
+    """Extremely simple class, used only to store data for retrieval by 
+    the template	
+    """
     def __init__(self,baseCourse, depth = 0, color = "#FF0000"):
         self.backgroundColor = color
         self.depth = depth
@@ -30,28 +30,28 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
 
 def getStuff(dep, code):
-"""returns a singleton list containing a course
+    """returns a singleton list containing a course
 
-	keyword arguments:
-	dep -- deparment code
-	code -- intradepartment identification code
+    keyword arguments:
+    dep -- deparment code
+    code -- intradepartment identification code
 
-"""
+    """
 
 
     entry = ndb.gql("SELECT * FROM Course WHERE departmentCode = '" + dep + "' and code = " + code)
     return entry.fetch(1)
 
 def buildPrereqTree(dep = 'CSCI', code = '4440', tree = [], depth=0, color = 0):
-"""builds a prereq tree.
+    """builds a prereq tree.
 
-Keyword arguments:
-	dep -- the department code (default 'CSCI')
-	code -- the course identifier in a department (default '4440'
-	tree -- the list of courses (default [])
-	depth -- how many ancestors the function has (default 0) do not change
-	color -- an index for the color list (default 0)
-"""
+    Keyword arguments:
+    dep -- the department code (default 'CSCI')
+    code -- the course identifier in a department (default '4440'
+    tree -- the list of courses (default [])
+    depth -- how many ancestors the function has (default 0) do not change
+    color -- an index for the color list (default 0)
+    """
     course = getStuff(dep, code)
     for i in course: 
         node = CourseNode(i, depth, colors[color%len(colors)])
@@ -66,7 +66,7 @@ Keyword arguments:
             for orClause in preOrCo:
                 color +=1
                 for singleCourse in orClause:
-                    listCourse = splitCourseString(singleCourse)
+                    listCourse = CourseParser.split_course_string(singleCourse)
                     dep2 = listCourse[0].upper()
                     code2 = listCourse[1]
                     buildPrereqTree(dep2, code2, tree, depth + 1, color)
