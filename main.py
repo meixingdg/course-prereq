@@ -7,7 +7,7 @@ import os
 from models import Course
 from models import Department
 from google.appengine.ext import ndb
-from prereqStringParser import *
+from courseparser import CourseParser
 
 colors = ["#FE642E","#8181F7","#DA81F5","#D0FA58","#58FAF4","#FA5858","#FE2EC8"]
 
@@ -33,7 +33,7 @@ def buildPrereqTree(dep, code, tree, depth=0, color = 0):
     for i in course: #getStuff returns a singleton list of courses
         node = CourseNode(i, depth, colors[color%len(colors)])
         tree.append(node)
-        prereqs = getCourses(i.prereqs)
+        prereqs = CourseParser.get_courses(i.prereqs)
         for preOrCo in prereqs:
             color +=1
             for orClause in preOrCo:
