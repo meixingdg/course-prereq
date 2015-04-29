@@ -127,6 +127,8 @@ class Parser():
     """
     @classmethod
     def get_courses(cls, rawStr, debug=False):
+        if rawStr == None:
+            return [[],[]]
         prereqStr, coreqStr = cls._split_str_into_prereq_and_coreq(rawStr, debug)
         prereqCourses = cls._split_req_str_using_and_or(prereqStr, debug)
         coreqCourses = cls._split_req_str_using_and_or(coreqStr, debug)
@@ -140,4 +142,5 @@ if __name__ == '__main__':
     prereqStr, coreqStr = Parser._split_str_into_prereq_and_coreq(string1, True)
     print 'prereq ----------------- '
     Parser._split_req_str_using_and_or(prereqStr, True)
+    print Parser.get_courses(None)
 
