@@ -13,3 +13,7 @@ class Course(ndb.Model):
     prereqs = ndb.TextProperty()
     semester = ndb.StringProperty()
     year = ndb.IntegerProperty()
+
+class Department(ndb.Model):
+    code = ndb.StringProperty()
+    name = ndb.StringProperty()

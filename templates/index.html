@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Dynamic-House-86822</title>
+
+    <!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+    <div class="container">
+	  <div class="page-header"><h1>Dynamic-House-86822 <small>the course prerequisite tree visualizer</small></h1></div>	  
+     <form method="post">  
+
+   	 <div class="form-group">
+	    <label for="sel-dept">Select a department.</label>
+		<select name = "department" class="form-control" id="sel-dept">
+		<option></option>
+        </select>
+		<br>
+	    <label for="sel-course">Select a course.</label>
+		<select name = "course" class="form-control" id="sel-course">
+        <option></option>
+		</select>
+		<hr>
+<button type="submit" class="btn btn-primary btn-lg btn-block">Go!</button>
+	  </div>
+	  </form>
+	</div>
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<!-- Include a json with all the departments -->
+    <script>
+
+	
+window.onload = function () {
+    var depCodes = {{depCodes|safe}};
+    var depNames = {{depNames|safe}};
+    var depCourses = {{depCourses|safe}};
+    var deptSel = document.getElementById("sel-dept"),
+        courseSel = document.getElementById("sel-course");
+    for (var i = 0;	i < depCodes.length; i++){
+	    if (depCodes[i] === "COOP") { continue; }
+        var temp = depCodes[i];
+        temp = temp.concat(" - ");
+        temp = temp.concat(depNames[i]);
+        deptSel.options[deptSel.options.length] = new Option(temp, depCodes[i]);
+    }
+    deptSel.onchange = function () {
+        courseSel.length = 1;
+        if (this.selectedIndex < 1){ return; }
+        for (var i = 0; i < depCourses.length; i++){
+		    flag = false
+            if (depCourses[i][0] === this.value) {
+			    for (var j = 1; j < depCourses[i].length; j++){
+                   courseSel.options[courseSel.options.length] = new Option(depCourses[i][j], depCourses[i][j]);
+			       flag = true;
+              }
+            }
+			if (flag === true) { break; }
+        }
+    }
+}
+
+
+
+	</script>
+  </body>
+</html>
