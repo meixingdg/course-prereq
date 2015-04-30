@@ -96,7 +96,7 @@ def get_menu_template_values():
         # We add a string representing each course to a list.
         courseEntries = Course.query(Course.departmentCode == dep.code)
         for course in courseEntries:
-            courses.append(str(course.code) + " - " + course.name.encode('utf8'))
+            courses.append(((str(course.code) + " - " + course.name).encode('utf8')).replace("\xe2\x80\x99" ,"'"))
         courses.sort()
         courses.insert(0, dep.code.encode('utf8'))
         depCourses.append(courses)
